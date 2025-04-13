@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<!-- Lưu file này với tên: tech-news.html -->
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechUpdate - Tin tức Công nghệ</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        a{
+            text-decoration: none;
+        }
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo-blue {
+            color: #2563eb;
+        }
+
+        .logo-dark {
+            color: #1f2937;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-container {
+            position: relative;
+            margin-right: 15px;
+        }
+
+        .search-input {
+            padding: 8px 16px;
+            padding-right: 40px;
+            border: 1px solid #d1d5db;
+            border-radius: 9999px;
+            width: 260px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: #2563eb;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+        }
+
+        .notification-btn {
+            position: relative;
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-right: 15px;
+            color: #4b5563;
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #ef4444;
+            color: white;
+            font-size: 10px;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .profile-btn {
+            width: 32px;
+            height: 32px;
+            background-color: #d1d5db;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Categories */
+        .categories {
+            display: flex;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+            scrollbar-width: none; /* For Firefox */
+            -ms-overflow-style: none; /* For IE and Edge */
+        }
+
+        .categories::-webkit-scrollbar {
+            display: none; /* For Chrome, Safari, and Opera */
+        }
+
+        .category-btn {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            margin-right: 10px;
+            border-radius: 9999px;
+            background-color: #e5e7eb;
+            color: #4b5563;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            white-space: nowrap;
+            transition: background-color 0.3s;
+        }
+
+        .category-btn:hover {
+            background-color: #d1d5db;
+        }
+
+        .category-btn.active {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        .category-icon {
+            margin-right: 6px;
+        }
+
+        /* Write new article button */
+        .write-btn-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 30px;
+        }
+
+        .write-btn {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .write-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* Section title */
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        /* Featured article */
+        .featured-article {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .featured-img {
+            height: 250px;
+            background-color: #d1d5db;
+        }
+
+        .featured-content {
+            padding: 20px;
+        }
+
+        .featured-tag {
+            background-color: #2563eb;
+            color: white;
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .featured-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .featured-excerpt {
+            color: #4b5563;
+            margin-bottom: 15px;
+        }
+
+        .featured-full-content {
+            color: #374151;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .author-info {
+            display: flex;
+            align-items: center;
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .author-info div {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+
+        .author-info i {
+            margin-right: 5px;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .tag {
+            display: flex;
+            align-items: center;
+            background-color: #f3f4f6;
+            color: #4b5563;
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-right: 8px;
+            margin-bottom: 5px;
+        }
+
+        .tag i {
+            margin-right: 4px;
+            font-size: 10px;
+        }
+
+        .article-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .action-buttons {
+            display: flex;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            color: #6b7280;
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-right: 16px;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .action-btn:hover {
+            color: #2563eb;
+        }
+
+        .action-btn i {
+            margin-right: 5px;
+        }
+
+        .bookmark-btn {
+            color: #6b7280;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .bookmark-btn:hover {
+            color: #2563eb;
+        }
+
+        .read-more-btn {
+            color: #2563eb;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            margin-top: 12px;
+            transition: color 0.3s;
+        }
+
+        .read-more-btn:hover {
+            color: #1d4ed8;
+        }
+
+        /* Articles grid */
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 20px;
+        }
+
+        .article-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .article-img {
+            height: 160px;
+            background-color: #d1d5db;
+        }
+
+        .article-content {
+            padding: 16px;
+        }
+
+        .article-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .load-more-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .load-more-btn {
+            background-color: white;
+            border: 1px solid #2563eb;
+            color: #2563eb;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .load-more-btn:hover {
+            background-color: #eff6ff;
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .articles-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1 class="logo"><span class="logo-blue">TECH</span><span class="logo-dark">UPDATE</span></h1>
+            
+            <div class="header-right">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Tìm kiếm bài viết...">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+                
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-count">3</span>
+                </button>
+                
+                <button class="profile-btn"></button>
+            </div>
+        </header>
+        
+        <!-- Categories -->
+        <div class="categories">
+            <button class="category-btn active" data-category="all">
+                <i class="fas fa-chart-line category-icon"></i>
+                Tất cả
+            </button>
+            <button class="category-btn" data-category="AI">
+                <i class="fas fa-microchip category-icon"></i>
+                AI & ML
+            </button>
+            <button class="category-btn" data-category="Software">
+                <i class="fas fa-desktop category-icon"></i>
+                Phần mềm
+            </button>
+            <button class="category-btn" data-category="Hardware">
+                <i class="fas fa-mobile-alt category-icon"></i>
+                Phần cứng
+            </button>
+            <button class="category-btn" data-category="Blockchain">
+                <i class="fas fa-cloud category-icon"></i>
+                Blockchain
+            </button>
+            <button class="category-btn" data-category="IoT">
+                <i class="fas fa-wifi category-icon"></i>
+                IoT
+            </button>
+        </div>
+        
+        <!-- Featured Article -->
+        <div class="featured-article" id="featured-article">
+            <div class="featured-img"></div>
+            <div class="featured-content">
+                <span class="featured-tag">Nổi bật</span>
+                <h2 class="featured-title">Tổng quan về AI generative và cách nó đang thay đổi ngành công nghiệp sáng tạo</h2>
+                <p class="featured-excerpt">AI generative đang mở ra kỷ nguyên mới trong việc tạo ra nội dung với khả năng tạo hình ảnh, văn bản và âm thanh chất lượng cao...</p>
+                <div class="featured-full-content">
+                    AI generative đang mở ra kỷ nguyên mới trong việc tạo ra nội dung với khả năng tạo hình ảnh, văn bản và âm thanh chất lượng cao. Các mô hình như DALL-E, GPT-4 và Midjourney đã chứng minh tiềm năng to lớn trong việc hỗ trợ các nhà sáng tạo nội dung, nhà thiết kế và nghệ sĩ. Công nghệ này không chỉ giúp tăng tốc quá trình sáng tạo mà còn mở ra những khả năng mới mà con người chưa từng nghĩ tới. Tuy nhiên, sự phát triển nhanh chóng của AI generative cũng đặt ra nhiều câu hỏi về bản quyền, đạo đức và tương lai của lao động sáng tạo trong kỷ nguyên AI.
+                </div>
+                
+                <div class="author-info">
+                    <div>
+                        <i class="fas fa-user"></i>
+                        <span>Nguyễn Minh Tuấn</span>
+                    </div>
+                    <div>
+                        <i class="fas fa-clock"></i>
+                        <span>2 giờ trước</span>
+                    </div>
+                </div>
+                
+                <div class="tags">
+                    <span class="tag"><i class="fas fa-tag"></i>AI</span>
+                    <span class="tag"><i class="fas fa-tag"></i>Công nghệ</span>
+                    <span class="tag"><i class="fas fa-tag"></i>Sáng tạo</span>
+                </div>
+                
+                <div class="article-actions">
+                    <div class="action-buttons">
+                        <button class="action-btn">
+                            <i class="fas fa-thumbs-up"></i>
+                            <span>245</span>
+                        </button>
+                        <button class="action-btn">
+                            <i class="fas fa-comment"></i>
+                            <span>42</span>
+                        </button>
+                        <button class="action-btn">
+                            <i class="fas fa-share"></i>
+                            <span>Chia sẻ</span>
+                        </button>
+                    </div>
+                    <button class="bookmark-btn">
+                        <i class="fas fa-bookmark"></i>
+                    </button>
+                </div>
+                
+                <button class="read-more-btn" id="read-more-btn">Đọc thêm</button>
+            </div>
+        </div>
+        
+        <!-- Write New Article Button -->
+        <a class="write-btn-container" href="share.html">
+            <button class="write-btn">+ Viết bài mới</button>
+        </a>
+        
+        <!-- Articles Section -->
+        <h2 class="section-title" id="section-title">Bài viết mới nhất</h2>
+        
+        <div class="articles-grid" id="articles-grid">
+            <!-- Articles will be added here by JavaScript -->
+        </div>
+        
+        <div class="load-more-container">
+            <button class="load-more-btn">Xem thêm bài viết</button>
+        </div>
+    </div>
+
+    <script>
+        // Sample data for articles
+        const articles = [
+            {
+                id: 2,
+                title: "Apple ra mắt chip M4 với hiệu năng vượt trội",
+                excerpt: "Chip M4 mới của Apple hứa hẹn mang lại hiệu năng cao hơn 40% so với thế hệ trước, đồng thời tiết kiệm pin hơn...",
+                author: "Trần Hải Nam",
+                date: "5 giờ trước",
+                category: "Hardware",
+                tags: ["Apple", "Chip", "M4"],
+                likes: 182,
+                comments: 36
+            },
+            {
+                id: 3,
+                title: "Cách mạng Web3 và ứng dụng blockchain trong các doanh nghiệp",
+                excerpt: "Web3 và công nghệ blockchain đang dần được các doanh nghiệp lớn áp dụng, mở ra kỷ nguyên mới cho internet phi tập trung...",
+                author: "Lê Thị Hồng",
+                date: "1 ngày trước",
+                category: "Blockchain",
+                tags: ["Web3", "Blockchain", "Doanh nghiệp"],
+                likes: 156,
+                comments: 29
+            },
+            {
+                id: 4,
+                title: "5G và tương lai của IoT: Những thay đổi sắp tới",
+                excerpt: "Với tốc độ và độ trễ thấp, mạng 5G đang mở ra tiềm năng to lớn cho các thiết bị IoT và các ứng dụng thông minh...",
+                author: "Phạm Văn Khoa",
+                date: "2 ngày trước",
+                category: "IoT",
+                tags: ["5G", "IoT", "Kết nối"],
+                likes: 134,
+                comments: 18
+            },
+            {
+                id: 5,
+                title: "Xu hướng phát triển phần mềm 2025: Microservices và Serverless",
+                excerpt: "Microservices và kiến trúc Serverless đang định hình lại cách các công ty xây dựng và triển khai phần mềm trong tương lai...",
+                author: "Hoàng Minh Đức",
+                date: "3 ngày trước",
+                category: "Software",
+                tags: ["Microservices", "Serverless", "Cloud"],
+                likes: 167,
+                comments: 25
+            }
+        ];
+
+        const categories = [
+            { id: 'all', name: 'Tất cả', icon: 'fa-chart-line' },
+            { id: 'AI', name: 'AI & ML', icon: 'fa-microchip' },
+            { id: 'Software', name: 'Phần mềm', icon: 'fa-desktop' },
+            { id: 'Hardware', name: 'Phần cứng', icon: 'fa-mobile-alt' },
+            { id: 'Blockchain', name: 'Blockchain', icon: 'fa-cloud' },
+            { id: 'IoT', name: 'IoT', icon: 'fa-wifi' }
+        ];
+
+        // DOM Elements
+        const articlesGrid = document.getElementById('articles-grid');
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const sectionTitle = document.getElementById('section-title');
+        const featuredArticle = document.getElementById('featured-article');
+        const readMoreBtn = document.getElementById('read-more-btn');
+        const featuredContent = document.querySelector('.featured-full-content');
+
+        // Current active category
+        let activeCategory = 'all';
+
+        // Initialize the app
+        function init() {
+            renderArticles();
+            setupEventListeners();
+        }
+
+        // Render articles based on active category
+        function renderArticles() {
+            // Clear current articles
+            articlesGrid.innerHTML = '';
+            
+            // Filter articles based on category
+            const filteredArticles = activeCategory === 'all' 
+                ? articles 
+                : articles.filter(article => article.category === activeCategory);
+            
+            // Show/hide featured article based on category
+            featuredArticle.style.display = activeCategory === 'all' ? 'block' : 'none';
+            
+            // Update section title
+            if (activeCategory === 'all') {
+                sectionTitle.textContent = 'Bài viết mới nhất';
+            } else {
+                const category = categories.find(c => c.id === activeCategory);
+                sectionTitle.textContent = `Bài viết về ${category.name}`;
+            }
+            
+            // Render filtered articles
+            filteredArticles.forEach(article => {
+                const articleElement = createArticleElement(article);
+                articlesGrid.appendChild(articleElement);
+            });
+        }
+
+        // Create article DOM element
+        function createArticleElement(article) {
+            const articleDiv = document.createElement('div');
+            articleDiv.className = 'article-card';
+            
+            const tagsHtml = article.tags.map(tag => 
+                `<span class="tag"><i class="fas fa-tag"></i>${tag}</span>`
+            ).join('');
+            
+            articleDiv.innerHTML = `
+                <div class="article-img"></div>
+                <div class="article-content">
+                    <h2 class="article-title">${article.title}</h2>
+                    <p class="featured-excerpt">${article.excerpt}</p>
+                    
+                    <div class="author-info">
+                        <div>
+                            <i class="fas fa-user"></i>
+                            <span>${article.author}</span>
+                        </div>
+                        <div>
+                            <i class="fas fa-clock"></i>
+                            <span>${article.date}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="tags">
+                        ${tagsHtml}
+                    </div>
+                    
+                    <div class="article-actions">
+                        <div class="action-buttons">
+                            <button class="action-btn">
+                                <i class="fas fa-thumbs-up"></i>
+                                <span>${article.likes}</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="fas fa-comment"></i>
+                                <span>${article.comments}</span>
+                            </button>
+                            <button class="action-btn">
+                                <i class="fas fa-share"></i>
+                                <span>Chia sẻ</span>
+                            </button>
+                        </div>
+                        <button class="bookmark-btn">
+                            <i class="fas fa-bookmark"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            return articleDiv;
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Category buttons
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    button.classList.add('active');
+                    
+                    // Update active category and render articles
+                    activeCategory = button.getAttribute('data-category');
+                    renderArticles();
+                });
+            });
+            
+            // Read more button for featured article
+            readMoreBtn.addEventListener('click', () => {
+                const isExpanded = featuredContent.style.display === 'block';
+                featuredContent.style.display = isExpanded ? 'none' : 'block';
+                readMoreBtn.textContent = isExpanded ? 'Đọc thêm' : 'Thu gọn';
+            });
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

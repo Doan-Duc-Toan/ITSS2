@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<!-- Lưu file này với tên: knowledge-sharing.html -->
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học Cùng Nhau - Trao đổi Kiến thức</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .login-btn {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .login-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        .register-btn {
+            background-color: #e5e7eb;
+            color: #374151;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .register-btn:hover {
+            background-color: #d1d5db;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 24px;
+        }
+
+        .tab {
+            padding: 8px 16px;
+            font-weight: 500;
+            cursor: pointer;
+            color: #6b7280;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab.active {
+            color: #2563eb;
+            border-bottom: 2px solid #2563eb;
+        }
+
+        /* Search */
+        .search-container {
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px 36px 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+        }
+
+        /* Filter popup */
+        .filter-container {
+            position: relative;
+        }
+
+        .filter-popup {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 260px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
+            padding: 16px;
+            z-index: 100;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .filter-popup.active {
+            display: block;
+        }
+
+        .filter-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .filter-section {
+            margin-bottom: 16px;
+        }
+
+        .filter-section-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .filter-option input {
+            margin-right: 8px;
+        }
+
+        .filter-option label {
+            font-size: 14px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .reset-btn {
+            background-color: #e5e7eb;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 12px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .apply-btn {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 12px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* Post form */
+        .new-post {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .new-post-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .post-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .post-textarea {
+            width: 100%;
+            height: 120px;
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            resize: none;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .attach-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .attach-btn:hover {
+            color: #374151;
+        }
+
+        .post-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .post-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* Post card */
+        .post {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .post-header {
+            display: flex;
+            margin-bottom: 8px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #d1d5db;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+
+        .post-author {
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .post-time {
+            font-size: 12px;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .post-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .post-content {
+            color: #4b5563;
+            margin-bottom: 12px;
+        }
+
+        .post-footer {
+            display: flex;
+            gap: 16px;
+        }
+
+        .like-btn, .comment-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background: none;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .like-btn:hover, .comment-btn:hover {
+            color: #2563eb;
+        }
+
+        /* Document card */
+        .document {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+            margin-bottom: 16px;
+            display: flex;
+        }
+
+        .document-icon {
+            width: 48px;
+            height: 48px;
+            background-color: #e5e7eb;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+        }
+
+        .document-info {
+            flex: 1;
+        }
+
+        .document-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .document-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+
+        .document-type {
+            background-color: #e5e7eb;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .document-details {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        /* Results info */
+        .results-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .sort-select {
+            padding: 4px 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        /* Utilities */
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1 class="logo">HỌC CÙNG NHAU</h1>
+            <div class="auth-buttons">
+                <button class="login-btn">Đăng nhập</button>
+                <button class="register-btn">Đăng ký</button>
+                <a href="index.html" class="tech-news-btn" style="margin-left: 10px; background-color: #10b981; color: white; text-decoration: none; padding: 6px 12px; border-radius: 4px; font-size: 14px;">Tin Công Nghệ</a>
+            </div>
+        </header>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" data-tab="posts">Bài đăng</div>
+            <div class="tab" data-tab="documents">Tài liệu học tập</div>
+        </div>
+
+        <!-- Posts Section -->
+        <div class="tab-content" id="posts-content">
+            <!-- New Post Form -->
+            <div class="new-post">
+                <h2 class="new-post-title">Tạo bài đăng mới</h2>
+                <input type="text" class="post-input" placeholder="Tiêu đề bài viết">
+                <textarea class="post-textarea" placeholder="Nội dung bài viết..."></textarea>
+                <div class="post-actions">
+                    <button class="attach-btn">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Đính kèm tệp</span>
+                    </button>
+                    <button class="post-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Đăng bài</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Search -->
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Tìm kiếm bài viết...">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+
+            <!-- Posts List -->
+            <div class="posts-list">
+                <!-- Post 1 -->
+                <div class="post">
+                    <div class="post-header">
+                        <div class="avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <div class="post-author">Nguyễn Văn A</div>
+                            <div class="post-time">
+                                <i class="fas fa-clock"></i>
+                                <span>1 giờ trước</span>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="post-title">Kỹ thuật giải toán đạo hàm nâng cao</h3>
+                    <p class="post-content">Trong bài viết này, tôi chia sẻ một số phương pháp giải nhanh các bài toán đạo hàm phức tạp thường gặp trong các kỳ thi...</p>
+                    <div class="post-footer">
+                        <button class="like-btn">
+                            <i class="fas fa-thumbs-up"></i>
+                            <span>Thích</span>
+                        </button>
+                        <button class="comment-btn">
+                            <i class="fas fa-comment"></i>
+                            <span>5 Bình luận</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Post 2 -->
+                <div class="post">
+                    <div class="post-header">
+                        <div class="avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <div class="post-author">Trần Thị B</div>
+                            <div class="post-time">
+                                <i class="fas fa-clock"></i>
+                                <span>3 giờ trước</span>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="post-title">Phương pháp học tiếng Anh hiệu quả cho người mới bắt đầu</h3>
+                    <p class="post-content">Sau nhiều năm nghiên cứu và giảng dạy, tôi đã đúc kết được một số phương pháp học tiếng Anh hiệu quả...</p>
+                    <div class="post-footer">
+                        <button class="like-btn">
+                            <i class="fas fa-thumbs-up"></i>
+                            <span>Thích</span>
+                        </button>
+                        <button class="comment-btn">
+                            <i class="fas fa-comment"></i>
+                            <span>12 Bình luận</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Post 3 -->
+                <div class="post">
+                    <div class="post-header">
+                        <div class="avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <div class="post-author">Lê Văn C</div>
+                            <div class="post-time">
+                                <i class="fas fa-clock"></i>
+                                <span>1 ngày trước</span>
+                            </div>
+                        </div>
+                    </div>
+                    <h3 class="post-title">Tổng hợp tài liệu học lập trình Python từ cơ bản đến nâng cao</h3>
+                    <p class="post-content">Python là một ngôn ngữ lập trình phổ biến và dễ học. Trong bài viết này, tôi sẽ chia sẻ các nguồn tài liệu hữu ích...</p>
+                    <div class="post-footer">
+                        <button class="like-btn">
+                            <i class="fas fa-thumbs-up"></i>
+                            <span>Thích</span>
+                        </button>
+                        <button class="comment-btn">
+                            <i class="fas fa-comment"></i>
+                            <span>8 Bình luận</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Documents Section -->
+        <div class="tab-content hidden" id="documents-content">
+            <!-- Search and Filter -->
+            <div class="search-container filter-container">
+                <input type="text" class="search-input" placeholder="Tìm kiếm tài liệu...">
+                <i class="fas fa-search search-icon"></i>
+                <i class="fas fa-filter search-icon" style="right: 40px; cursor: pointer;" id="filter-btn"></i>
+                
+                <!-- Filter Popup -->
+                <div class="filter-popup" id="filter-popup">
+                    <h3 class="filter-title">Lọc tài liệu</h3>
+                    
+                    <div class="filter-section">
+                        <p class="filter-section-title">Môn học</p>
+                        <div class="filter-option">
+                            <input type="checkbox" id="math">
+                            <label for="math">Toán học</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="physics">
+                            <label for="physics">Vật lý</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="chemistry">
+                            <label for="chemistry">Hóa học</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="biology">
+                            <label for="biology">Sinh học</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="it">
+                            <label for="it">Công nghệ thông tin</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="language">
+                            <label for="language">Ngoại ngữ</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="economics">
+                            <label for="economics">Kinh tế</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="other">
+                            <label for="other">Khác</label>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <p class="filter-section-title">Định dạng</p>
+                        <div class="filter-option">
+                            <input type="checkbox" id="pdf">
+                            <label for="pdf">PDF</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="docx">
+                            <label for="docx">DOCX</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="pptx">
+                            <label for="pptx">PPTX</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="xlsx">
+                            <label for="xlsx">XLSX</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="video">
+                            <label for="video">Video</label>
+                        </div>
+                        <div class="filter-option">
+                            <input type="checkbox" id="audio">
+                            <label for="audio">Audio</label>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-buttons">
+                        <button class="reset-btn">Đặt lại</button>
+                        <button class="apply-btn">Áp dụng</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results info -->
+            <div class="results-info">
+                <p>Hiển thị 4 kết quả</p>
+                <select class="sort-select">
+                    <option>Mới nhất</option>
+                    <option>Lượt tải nhiều nhất</option>
+                    <option>Theo tên (A-Z)</option>
+                </select>
+            </div>
+
+            <!-- Documents List -->
+            <div class="documents-list">
+                <!-- Document 1 -->
+                <div class="document">
+                    <div class="document-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="document-info">
+                        <h3 class="document-title">Giáo trình Toán cao cấp</h3>
+                        <div class="document-meta">
+                            <span>PGS.TS Nguyễn Văn X</span>
+                            <span class="document-type">PDF</span>
+                        </div>
+                        <div class="document-details">
+                            <span>Toán học</span>
+                            <span>1250 lượt tải</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Document 2 -->
+                <div class="document">
+                    <div class="document-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="document-info">
+                        <h3 class="document-title">Luyện đọc tiếng Anh - Trình độ B2</h3>
+                        <div class="document-meta">
+                            <span>ThS. Trần Y</span>
+                            <span class="document-type">DOCX</span>
+                        </div>
+                        <div class="document-details">
+                            <span>Ngoại ngữ</span>
+                            <span>865 lượt tải</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Document 3 -->
+                <div class="document">
+                    <div class="document-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="document-info">
+                        <h3 class="document-title">Bài giảng Vật lý đại cương</h3>
+                        <div class="document-meta">
+                            <span>GS. Phạm Z</span>
+                            <span class="document-type">PDF</span>
+                        </div>
+                        <div class="document-details">
+                            <span>Vật lý</span>
+                            <span>732 lượt tải</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Document 4 -->
+                <div class="document">
+                    <div class="document-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="document-info">
+                        <h3 class="document-title">Hướng dẫn lập trình C++ cho người mới bắt đầu</h3>
+                        <div class="document-meta">
+                            <span>KS. Hoàng K</span>
+                            <span class="document-type">PDF</span>
+                        </div>
+                        <div class="document-details">
+                            <span>Công nghệ thông tin</span>
+                            <span>1876 lượt tải</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                tabs.forEach(t => t.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Hide all tab contents
+                tabContents.forEach(content => content.classList.add('hidden'));
+                
+                // Show the corresponding tab content
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(`${tabId}-content`).classList.remove('hidden');
+            });
+        });
+
+        // Filter popup toggle
+        const filterBtn = document.getElementById('filter-btn');
+        const filterPopup = document.getElementById('filter-popup');
+        
+        filterBtn.addEventListener('click', () => {
+            filterPopup.classList.toggle('active');
+        });
+        
+        // Close filter popup when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!event.target.closest('#filter-popup') && event.target !== filterBtn) {
+                filterPopup.classList.remove('active');
+            }
+        });
+        
+        // Apply and Reset filter buttons
+        const applyFilterBtn = document.querySelector('.apply-btn');
+        const resetFilterBtn = document.querySelector('.reset-btn');
+        
+        applyFilterBtn.addEventListener('click', () => {
+            filterPopup.classList.remove('active');
+            // Here you would add logic to apply the filters
+        });
+        
+        resetFilterBtn.addEventListener('click', () => {
+            const checkboxes = filterPopup.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+        });
+    </script>
+</body>
+</html>
