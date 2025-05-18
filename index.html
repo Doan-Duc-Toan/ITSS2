@@ -1,694 +1,1895 @@
 <!DOCTYPE html>
-<!-- Lưu file này với tên: tech-news.html -->
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechUpdate - Tin tức Công nghệ</title>
+    <title>Nền tảng Trao đổi Học tập</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #4285f4;
+            --secondary-color: #34a853;
+            --accent-color: #fbbc05;
+            --danger-color: #ea4335;
+            --text-color: #333;
+            --light-bg: #f5f5f5;
+            --border-color: #e0e0e0;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Roboto', Arial, sans-serif;
         }
 
-        a{
-            text-decoration: none;
-        }
         body {
-            background-color: #f5f7fa;
-            color: #333;
+            background-color: var(--light-bg);
+            color: var(--text-color);
             line-height: 1.6;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        /* Header */
-        header {
+        nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .logo {
-            font-size: 24px;
+            font-size: 1.5rem;
             font-weight: bold;
+            color: var(--primary-color);
         }
 
-        .logo-blue {
-            color: #2563eb;
-        }
-
-        .logo-dark {
-            color: #1f2937;
-        }
-
-        .header-right {
+        .nav-links {
             display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 1rem;
             align-items: center;
         }
 
-        .search-container {
-            position: relative;
-            margin-right: 15px;
+        .search-bar {
+            display: flex;
+            margin: 2rem auto;
+            max-width: 800px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
 
         .search-input {
-            padding: 8px 16px;
-            padding-right: 40px;
-            border: 1px solid #d1d5db;
-            border-radius: 9999px;
-            width: 260px;
-            font-size: 14px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        .search-input:focus {
-            border-color: #2563eb;
-        }
-
-        .search-icon {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #9ca3af;
-        }
-
-        .notification-btn {
-            position: relative;
-            background: none;
+            flex-grow: 1;
+            padding: 1rem;
             border: none;
-            cursor: pointer;
-            margin-right: 15px;
-            color: #4b5563;
+            outline: none;
+            font-size: 1rem;
         }
 
-        .notification-count {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: #ef4444;
+        .search-input::placeholder {
+            color: #999;
+        }
+
+        .search-filters {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            align-items: center;
+        }
+
+        .filter-select {
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            outline: none;
+            background-color: white;
+        }
+
+        .search-button {
+            background-color: var(--primary-color);
             color: white;
-            font-size: 10px;
-            width: 16px;
-            height: 16px;
+            border: none;
+            padding: 0 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-button:hover {
+            background-color: #3367d6;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        /* Document Card */
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .document-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .document-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .document-banner {
+            height: 140px;
+            background-color: #e9ecef;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
+            color: #495057;
         }
 
-        .profile-btn {
-            width: 32px;
-            height: 32px;
-            background-color: #d1d5db;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
+        .document-banner i {
+            font-size: 3rem;
         }
 
-        /* Categories */
-        .categories {
-            display: flex;
-            overflow-x: auto;
-            padding-bottom: 10px;
-            margin-bottom: 30px;
-            scrollbar-width: none; /* For Firefox */
-            -ms-overflow-style: none; /* For IE and Edge */
+        .document-content {
+            padding: 1rem;
         }
 
-        .categories::-webkit-scrollbar {
-            display: none; /* For Chrome, Safari, and Opera */
-        }
-
-        .category-btn {
-            display: flex;
-            align-items: center;
-            padding: 8px 16px;
-            margin-right: 10px;
-            border-radius: 9999px;
-            background-color: #e5e7eb;
-            color: #4b5563;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            white-space: nowrap;
-            transition: background-color 0.3s;
-        }
-
-        .category-btn:hover {
-            background-color: #d1d5db;
-        }
-
-        .category-btn.active {
-            background-color: #2563eb;
-            color: white;
-        }
-
-        .category-icon {
-            margin-right: 6px;
-        }
-
-        /* Write new article button */
-        .write-btn-container {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 30px;
-        }
-
-        .write-btn {
-            background-color: #2563eb;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 10px 16px;
+        .document-title {
+            font-size: 1.1rem;
             font-weight: 500;
-            cursor: pointer;
-            transition: background-color 0.3s;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
         }
 
-        .write-btn:hover {
-            background-color: #1d4ed8;
+        .document-meta {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-bottom: 0.5rem;
         }
 
-        /* Section title */
-        .section-title {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-
-        /* Featured article */
-        .featured-article {
-            background-color: white;
-            border-radius: 8px;
+        .document-description {
+            font-size: 0.9rem;
+            color: #495057;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
         }
 
-        .featured-img {
-            height: 250px;
-            background-color: #d1d5db;
+        .document-actions {
+            display: flex;
+            justify-content: space-between;
         }
 
-        .featured-content {
-            padding: 20px;
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: background-color 0.3s, color 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .featured-tag {
-            background-color: #2563eb;
+        .btn-primary {
+            background-color: var(--primary-color);
             color: white;
-            font-size: 12px;
-            padding: 4px 8px;
-            border-radius: 4px;
-            display: inline-block;
-            margin-bottom: 10px;
+            border: none;
         }
 
-        .featured-title {
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 15px;
+        .btn-primary:hover {
+            background-color: #3367d6;
         }
 
-        .featured-excerpt {
-            color: #4b5563;
-            margin-bottom: 15px;
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
         }
 
-        .featured-full-content {
-            color: #374151;
-            margin-bottom: 20px;
-            display: none;
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
         }
 
-        .author-info {
+        /* Question List */
+        .question-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .question-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .question-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--primary-color);
+        }
+
+        .question-stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        .question-author {
             display: flex;
             align-items: center;
-            color: #6b7280;
-            font-size: 14px;
-            margin-bottom: 15px;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: #495057;
+            margin-bottom: 1rem;
         }
 
-        .author-info div {
+        .author-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #e9ecef;
             display: flex;
             align-items: center;
-            margin-right: 15px;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #495057;
         }
 
-        .author-info i {
-            margin-right: 5px;
+        .question-content {
+            font-size: 0.95rem;
+            color: #212529;
+            margin-bottom: 1rem;
         }
 
-        .tags {
-            display: flex;
-            flex-wrap: wrap;
-            margin-bottom: 15px;
-        }
-
-        .tag {
-            display: flex;
-            align-items: center;
-            background-color: #f3f4f6;
-            color: #4b5563;
-            font-size: 12px;
-            padding: 4px 8px;
-            border-radius: 4px;
-            margin-right: 8px;
-            margin-bottom: 5px;
-        }
-
-        .tag i {
-            margin-right: 4px;
-            font-size: 10px;
-        }
-
-        .article-actions {
+        .question-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .action-buttons {
+        .question-tags {
             display: flex;
+            gap: 0.5rem;
         }
 
-        .action-btn {
+        .tag {
+            font-size: 0.8rem;
+            background-color: #e9ecef;
+            color: #495057;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+        }
+
+        /* Document Detail */
+        .document-detail-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .document-detail-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .document-detail-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .document-detail-meta {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .meta-item {
             display: flex;
             align-items: center;
-            color: #6b7280;
-            background: none;
-            border: none;
-            cursor: pointer;
-            margin-right: 16px;
-            font-size: 14px;
-            transition: color 0.3s;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: #495057;
         }
 
-        .action-btn:hover {
-            color: #2563eb;
-        }
-
-        .action-btn i {
-            margin-right: 5px;
-        }
-
-        .bookmark-btn {
-            color: #6b7280;
-            background: none;
-            border: none;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .bookmark-btn:hover {
-            color: #2563eb;
-        }
-
-        .read-more-btn {
-            color: #2563eb;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-weight: 500;
-            margin-top: 12px;
-            transition: color 0.3s;
-        }
-
-        .read-more-btn:hover {
-            color: #1d4ed8;
-        }
-
-        /* Articles grid */
-        .articles-grid {
-            display: grid;
-            grid-template-columns: repeat(1, 1fr);
-            gap: 20px;
-        }
-
-        .article-card {
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .article-img {
-            height: 160px;
-            background-color: #d1d5db;
-        }
-
-        .article-content {
-            padding: 16px;
-        }
-
-        .article-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .load-more-container {
+        .document-preview {
+            background-color: #f8f9fa;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            min-height: 300px;
+            padding: 1rem;
+            margin-bottom: 2rem;
             display: flex;
+            align-items: center;
             justify-content: center;
-            margin-top: 30px;
         }
 
-        .load-more-btn {
-            background-color: white;
-            border: 1px solid #2563eb;
-            color: #2563eb;
-            padding: 8px 16px;
-            border-radius: 8px;
+        .document-preview-placeholder {
+            text-align: center;
+            color: #6c757d;
+        }
+
+        .document-preview-placeholder i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Comments */
+        .comments-section {
+            margin-top: 2rem;
+        }
+
+        .comment-form {
+            margin-bottom: 2rem;
+        }
+
+        .comment-input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            resize: vertical;
+            min-height: 100px;
+            margin-bottom: 1rem;
+        }
+
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .comment {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .comment-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #495057;
+            flex-shrink: 0;
+        }
+
+        .comment-content {
+            flex-grow: 1;
+        }
+
+        .comment-author {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .comment-text {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .comment-actions {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+
+        .comment-actions button {
+            background: none;
+            border: none;
             cursor: pointer;
-            transition: background-color 0.3s;
+            color: inherit;
         }
 
-        .load-more-btn:hover {
-            background-color: #eff6ff;
+        .comment-actions button:hover {
+            color: var(--primary-color);
+        }
+
+        .nested-comments {
+            margin-left: 3rem;
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.2);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 1000;
+        }
+
+        .toast {
+            padding: 1rem 1.5rem;
+            border-radius: 4px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: slideIn 0.3s ease-out;
+            max-width: 300px;
+        }
+
+        .toast-success {
+            background-color: var(--secondary-color);
+        }
+
+        .toast-error {
+            background-color: var(--danger-color);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Modal */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            display: none;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Responsive */
-        @media (min-width: 768px) {
-            .articles-grid {
-                grid-template-columns: repeat(2, 1fr);
+        @media (max-width: 768px) {
+            .documents-grid {
+                grid-template-columns: 1fr;
             }
+
+            .document-detail-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .search-filters {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            padding: 1rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: border-color 0.3s, color 0.3s;
+        }
+
+        .tab.active {
+            border-bottom-color: var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Create Button */
+        .create-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            z-index: 100;
+        }
+
+        .create-button:hover {
+            background-color: #3367d6;
+            transform: scale(1.05);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 10px);
+            right: 0;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            min-width: 180px;
+            z-index: 100;
+            display: none;
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .dropdown-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background-color: var(--border-color);
+            margin: 0.5rem 0;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header>
-            <h1 class="logo"><span class="logo-blue">TECH</span><span class="logo-dark">UPDATE</span></h1>
-            
-            <div class="header-right">
-                <div class="search-container">
-                    <input type="text" class="search-input" placeholder="Tìm kiếm bài viết...">
-                    <i class="fas fa-search search-icon"></i>
-                </div>
-                
-                <button class="notification-btn">
-                    <i class="fas fa-bell"></i>
-                    <span class="notification-count">3</span>
-                </button>
-                
-                <button class="profile-btn"></button>
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">EduShare</div>
+            <div class="nav-links">
+                <a href="#" class="active">Trang chủ</a>
+                <a href="#">Tài liệu</a>
+                <a href="#">Câu hỏi & Trả lời</a>
+                <a href="#">Thảo luận</a>
             </div>
-        </header>
-        
-        <!-- Categories -->
-        <div class="categories">
-            <button class="category-btn active" data-category="all">
-                <i class="fas fa-chart-line category-icon"></i>
-                Tất cả
-            </button>
-            <button class="category-btn" data-category="AI">
-                <i class="fas fa-microchip category-icon"></i>
-                AI & ML
-            </button>
-            <button class="category-btn" data-category="Software">
-                <i class="fas fa-desktop category-icon"></i>
-                Phần mềm
-            </button>
-            <button class="category-btn" data-category="Hardware">
-                <i class="fas fa-mobile-alt category-icon"></i>
-                Phần cứng
-            </button>
-            <button class="category-btn" data-category="Blockchain">
-                <i class="fas fa-cloud category-icon"></i>
-                Blockchain
-            </button>
-            <button class="category-btn" data-category="IoT">
-                <i class="fas fa-wifi category-icon"></i>
-                IoT
-            </button>
+            <div class="user-actions">
+                <a href="#" class="btn btn-outline" id="login-btn">Đăng nhập</a>
+                <div class="user-dropdown" style="position: relative; display: none;" id="user-menu">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;" id="user-dropdown-toggle">
+                        <div class="author-avatar">N</div>
+                        <span>Ngô Đức Khánh</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-item">
+                            <i class="fas fa-user"></i>
+                            <span>Hồ sơ</span>
+                        </div>
+                        <div class="dropdown-item">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Tài liệu của tôi</span>
+                        </div>
+                        <div class="dropdown-item">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Câu hỏi của tôi</span>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="dropdown-item" id="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Đăng xuất</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <input type="text" class="search-input" placeholder="Nhập từ khóa tìm kiếm...">
+        <div class="search-filters">
+            <select class="filter-select">
+                <option value="">Tất cả chủ đề</option>
+                <option value="math">Toán học</option>
+                <option value="programming">Lập trình</option>
+                <option value="language">Ngoại ngữ</option>
+                <option value="science">Khoa học</option>
+            </select>
+            <select class="filter-select">
+                <option value="">Loại tài liệu</option>
+                <option value="pdf">PDF</option>
+                <option value="doc">DOC</option>
+                <option value="ppt">PPT</option>
+                <option value="video">Video</option>
+            </select>
+            <select class="filter-select">
+                <option value="">Năm</option>
+                <option value="2025">2025</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+            </select>
         </div>
-        
-        <!-- Featured Article -->
-        <div class="featured-article" id="featured-article">
-            <div class="featured-img"></div>
-            <div class="featured-content">
-                <span class="featured-tag">Nổi bật</span>
-                <h2 class="featured-title">Tổng quan về AI generative và cách nó đang thay đổi ngành công nghiệp sáng tạo</h2>
-                <p class="featured-excerpt">AI generative đang mở ra kỷ nguyên mới trong việc tạo ra nội dung với khả năng tạo hình ảnh, văn bản và âm thanh chất lượng cao...</p>
-                <div class="featured-full-content">
-                    AI generative đang mở ra kỷ nguyên mới trong việc tạo ra nội dung với khả năng tạo hình ảnh, văn bản và âm thanh chất lượng cao. Các mô hình như DALL-E, GPT-4 và Midjourney đã chứng minh tiềm năng to lớn trong việc hỗ trợ các nhà sáng tạo nội dung, nhà thiết kế và nghệ sĩ. Công nghệ này không chỉ giúp tăng tốc quá trình sáng tạo mà còn mở ra những khả năng mới mà con người chưa từng nghĩ tới. Tuy nhiên, sự phát triển nhanh chóng của AI generative cũng đặt ra nhiều câu hỏi về bản quyền, đạo đức và tương lai của lao động sáng tạo trong kỷ nguyên AI.
-                </div>
-                
-                <div class="author-info">
-                    <div>
-                        <i class="fas fa-user"></i>
-                        <span>Nguyễn Minh Tuấn</span>
-                    </div>
-                    <div>
-                        <i class="fas fa-clock"></i>
-                        <span>2 giờ trước</span>
-                    </div>
-                </div>
-                
-                <div class="tags">
-                    <span class="tag"><i class="fas fa-tag"></i>AI</span>
-                    <span class="tag"><i class="fas fa-tag"></i>Công nghệ</span>
-                    <span class="tag"><i class="fas fa-tag"></i>Sáng tạo</span>
-                </div>
-                
-                <div class="article-actions">
-                    <div class="action-buttons">
-                        <button class="action-btn">
-                            <i class="fas fa-thumbs-up"></i>
-                            <span>245</span>
-                        </button>
-                        <button class="action-btn">
-                            <i class="fas fa-comment"></i>
-                            <span>42</span>
-                        </button>
-                        <button class="action-btn">
-                            <i class="fas fa-share"></i>
-                            <span>Chia sẻ</span>
-                        </button>
-                    </div>
-                    <button class="bookmark-btn">
-                        <i class="fas fa-bookmark"></i>
-                    </button>
-                </div>
-                
-                <button class="read-more-btn" id="read-more-btn">Đọc thêm</button>
+        <button class="search-button">
+            <i class="fas fa-search"></i>
+        </button>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Tabs -->
+        <div class="tabs">
+            <div class="tab active" data-tab="documents">Tài liệu</div>
+            <div class="tab" data-tab="questions">Câu hỏi & Trả lời</div>
+        </div>
+
+        <!-- Documents Tab -->
+        <div class="tab-content active" id="documents-tab">
+            <div class="section-title">Tài liệu mới nhất</div>
+            <div class="documents-grid" id="documents-container">
+                <!-- Document cards will be dynamically added here -->
             </div>
         </div>
-        
-        <!-- Write New Article Button -->
-        <a class="write-btn-container" href="share.html">
-            <button class="write-btn">+ Viết bài mới</button>
-        </a>
-        
-        <!-- Articles Section -->
-        <h2 class="section-title" id="section-title">Bài viết mới nhất</h2>
-        
-        <div class="articles-grid" id="articles-grid">
-            <!-- Articles will be added here by JavaScript -->
+
+        <!-- Questions Tab -->
+        <div class="tab-content" id="questions-tab">
+            <div class="section-title">Câu hỏi mới nhất</div>
+            <div class="question-list" id="questions-container">
+                <!-- Question cards will be dynamically added here -->
+            </div>
         </div>
-        
-        <div class="load-more-container">
-            <button class="load-more-btn">Xem thêm bài viết</button>
+    </main>
+
+    <!-- Create Button -->
+    <div class="create-button" id="create-button">
+        <i class="fas fa-plus"></i>
+    </div>
+
+    <!-- Create Modal -->
+    <div class="modal-backdrop" id="create-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-title">Tạo mới</h3>
+                <button class="modal-close" id="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="tabs">
+                    <div class="tab active" data-modal-tab="document">Tài liệu</div>
+                    <div class="tab" data-modal-tab="question">Câu hỏi</div>
+                </div>
+                
+                <!-- Document Form -->
+                <div class="tab-content active" id="document-form">
+                    <div class="form-group">
+                        <label for="document-title" class="form-label">Tiêu đề</label>
+                        <input type="text" id="document-title" class="form-control" placeholder="Nhập tiêu đề tài liệu">
+                    </div>
+                    <div class="form-group">
+                        <label for="document-description" class="form-label">Mô tả</label>
+                        <textarea id="document-description" class="form-control" placeholder="Mô tả ngắn gọn về tài liệu"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="document-category" class="form-label">Chủ đề</label>
+                        <select id="document-category" class="form-control">
+                            <option value="">Chọn chủ đề</option>
+                            <option value="math">Toán học</option>
+                            <option value="programming">Lập trình</option>
+                            <option value="language">Ngoại ngữ</option>
+                            <option value="science">Khoa học</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="document-file" class="form-label">Tệp tài liệu</label>
+                        <input type="file" id="document-file" class="form-control">
+                    </div>
+                </div>
+                
+                <!-- Question Form -->
+                <div class="tab-content" id="question-form">
+                    <div class="form-group">
+                        <label for="question-title" class="form-label">Tiêu đề câu hỏi</label>
+                        <input type="text" id="question-title" class="form-control" placeholder="Nhập tiêu đề câu hỏi">
+                    </div>
+                    <div class="form-group">
+                        <label for="question-content" class="form-label">Nội dung</label>
+                        <textarea id="question-content" class="form-control" placeholder="Mô tả chi tiết câu hỏi của bạn"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="question-tags" class="form-label">Thẻ tag</label>
+                        <input type="text" id="question-tags" class="form-control" placeholder="Nhập các tag cách nhau bởi dấu phẩy">
+                    </div>
+                    <div class="form-group">
+                        <label for="question-category" class="form-label">Chủ đề</label>
+                        <select id="question-category" class="form-control">
+                            <option value="">Chọn chủ đề</option>
+                            <option value="math">Toán học</option>
+                            <option value="programming">Lập trình</option>
+                            <option value="language">Ngoại ngữ</option>
+                            <option value="science">Khoa học</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancel-create">Hủy</button>
+                <button class="btn btn-primary" id="save-create">Lưu</button>
+            </div>
         </div>
     </div>
 
+    <!-- Document Detail Modal -->
+    <div class="modal-backdrop" id="document-detail-modal">
+        <div class="modal" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 class="modal-title" id="document-detail-title">Tên tài liệu</h3>
+                <button class="modal-close" id="close-document-detail">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="document-detail-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-user"></i>
+                        <span id="document-detail-author">Tác giả</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-calendar"></i>
+                        <span id="document-detail-date">15/05/2025</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-folder"></i>
+                        <span id="document-detail-category">Lập trình</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-eye"></i>
+                        <span id="document-detail-views">123 lượt xem</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-download"></i>
+                        <span id="document-detail-downloads">45 lượt tải</span>
+                    </div>
+                </div>
+
+                <div class="document-preview">
+                    <div class="document-preview-placeholder">
+                        <i class="fas fa-file-pdf"></i>
+                        <p>Xem trước tài liệu</p>
+                        <p>Bạn có thể tải xuống để xem đầy đủ</p>
+                    </div>
+                </div>
+
+                <div id="document-detail-description">
+                    Mô tả chi tiết về tài liệu này...
+                </div>
+
+                <div class="document-detail-actions" style="margin-top: 2rem;">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-download"></i> Tải xuống
+                    </button>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-share"></i> Chia sẻ
+                    </button>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-bookmark"></i> Lưu
+                    </button>
+                </div>
+
+                <div class="comments-section">
+                    <h3 class="section-title">Bình luận (3)</h3>
+                    <div class="comment-form">
+                        <textarea class="comment-input" placeholder="Viết bình luận của bạn..."></textarea>
+                        <button class="btn btn-primary">Gửi bình luận</button>
+                    </div>
+                    <div class="comments-list">
+                        <div class="comment">
+                            <div class="comment-avatar">T</div>
+                            <div class="comment-content">
+                                <div class="comment-author">Trần Đức Tuấn <span style="color: #6c757d; font-weight: normal; font-size: 0.85rem;">- 15/05/2025</span></div>
+                                <div class="comment-text">
+                                    Tài liệu rất hữu ích, cảm ơn bạn đã chia sẻ!
+                                </div>
+                                <div class="comment-actions">
+                                    <button><i class="fas fa-thumbs-up"></i> Thích (5)</button>
+                                    <button><i class="fas fa-reply"></i> Trả lời</button>
+                                </div>
+                                <div class="nested-comments">
+                                    <div class="comment">
+                                        <div class="comment-avatar">K</div>
+                                        <div class="comment-content">
+                                            <div class="comment-author">Ngô Đức Khánh <span style="color: #6c757d; font-weight: normal; font-size: 0.85rem;">- 16/05/2025</span></div>
+                                            <div class="comment-text">
+                                                Cảm ơn bạn đã xem và đánh giá!
+                                            </div>
+                                            <div class="comment-actions">
+                                                <button><i class="fas fa-thumbs-up"></i> Thích (2)</button>
+                                                <button><i class="fas fa-reply"></i> Trả lời</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment">
+                            <div class="comment-avatar">H</div>
+                            <div class="comment-content">
+                                <div class="comment-author">Hoàng Đức Dương <span style="color: #6c757d; font-weight: normal; font-size: 0.85rem;">- 16/05/2025</span></div>
+                                <div class="comment-text">
+                                    Phần 3 của tài liệu có một số lỗi về công thức, bạn có thể kiểm tra lại không?
+                                </div>
+                                <div class="comment-actions">
+                                    <button><i class="fas fa-thumbs-up"></i> Thích (1)</button>
+                                    <button><i class="fas fa-reply"></i> Trả lời</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Question Detail Modal -->
+    <div class="modal-backdrop" id="question-detail-modal">
+        <div class="modal" style="max-width: 800px;">
+            <div class="modal-header">
+                <h3 class="modal-title" id="question-detail-title">Câu hỏi</h3>
+                <button class="modal-close" id="close-question-detail">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="question-author">
+                    <div class="author-avatar">V</div>
+                    <span id="question-detail-author">Nguyễn Anh Vinh</span>
+                    <span style="color: #6c757d; font-size: 0.85rem;" id="question-detail-date">- 19/05/2025</span>
+                </div>
+                <div id="question-detail-content" style="margin-bottom: 1.5rem;">
+                    Nội dung câu hỏi sẽ được hiển thị ở đây...
+                </div>
+                <div class="question-tags" style="margin-bottom: 2rem;">
+                    <div class="tag">javascript</div>
+                    <div class="tag">frontend</div>
+                    <div class="tag">api</div>
+                </div>
+
+                <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 4px; margin-bottom: 2rem;">
+                    <h4 style="margin-bottom: 1rem;">3 câu trả lời</h4>
+                    <div class="comments-list">
+                        <div class="comment">
+                            <div class="comment-avatar">K</div>
+                            <div class="comment-content">
+                                <div class="comment-author">Ngô Đức Khánh <span style="color: #6c757d; font-weight: normal; font-size: 0.85rem;">- 19/05/2025</span></div>
+                                <div class="comment-text">
+                                    Bạn có thể giải quyết vấn đề này bằng cách sử dụng fetch API với tham số như sau...
+                                </div>
+                                <div class="comment-actions">
+                                    <button><i class="fas fa-thumbs-up"></i> Thích (8)</button>
+                                    <button><i class="fas fa-check-circle" style="color: var(--secondary-color);"></i> Câu trả lời hay nhất</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment">
+                            <div class="comment-avatar">D</div>
+                            <div class="comment-content">
+                                <div class="comment-author">Đoàn Đức Toàn <span style="color: #6c757d; font-weight: normal; font-size: 0.85rem;">- 19/05/2025</span></div>
+                                <div class="comment-text">
+                                    Một cách khác là sử dụng axios library, nó sẽ giúp xử lý các request dễ dàng hơn...
+                                </div>
+                                <div class="comment-actions">
+                                    <button><i class="fas fa-thumbs-up"></i> Thích (3)</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment">
+                            <div class="comment-avatar">H</div>
+                            <div class="comment-content">
+                                <div class="comment-author">Trần Sỹ Hiếu <span style="color: #6c757d; font-weight: normal; font-size: 0.85rem;">- 20/05/2025</span></div>
+                                <div class="comment-text">
+                                    Nếu bạn đang sử dụng React, có thể xem xét thư viện SWR hoặc React Query...
+                                </div>
+                                <div class="comment-actions">
+                                    <button><i class="fas fa-thumbs-up"></i> Thích (2)</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comment-form">
+                    <h4 style="margin-bottom: 1rem;">Trả lời câu hỏi này</h4>
+                    <textarea class="comment-input" placeholder="Viết câu trả lời của bạn..."></textarea>
+                    <button class="btn btn-primary">Gửi câu trả lời</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container">
+        <!-- Toast messages will be added dynamically -->
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
-        // Sample data for articles
-        const articles = [
+        // Sample data
+        const sampleDocuments = [
+            {
+                id: 1,
+                title: "Hướng dẫn sử dụng API và kết nối frontend với backend",
+                description: "Tài liệu chi tiết về cách tạo và sử dụng API, cũng như cách kết nối frontend với backend hiệu quả.",
+                author: "Ngô Đức Khánh",
+                date: "17/05/2025",
+                category: "Lập trình",
+                type: "pdf",
+                views: 156,
+                downloads: 42
+            },
             {
                 id: 2,
-                title: "Apple ra mắt chip M4 với hiệu năng vượt trội",
-                excerpt: "Chip M4 mới của Apple hứa hẹn mang lại hiệu năng cao hơn 40% so với thế hệ trước, đồng thời tiết kiệm pin hơn...",
-                author: "Trần Hải Nam",
-                date: "5 giờ trước",
-                category: "Hardware",
-                tags: ["Apple", "Chip", "M4"],
-                likes: 182,
-                comments: 36
+                title: "Thiết kế giao diện người dùng hiệu quả",
+                description: "Các nguyên tắc và kỹ thuật thiết kế UI/UX hiện đại, tập trung vào trải nghiệm người dùng.",
+                author: "Đoàn Đức Toàn",
+                date: "16/05/2025",
+                category: "Thiết kế",
+                type: "pdf",
+                views: 98,
+                downloads: 23
             },
             {
                 id: 3,
-                title: "Cách mạng Web3 và ứng dụng blockchain trong các doanh nghiệp",
-                excerpt: "Web3 và công nghệ blockchain đang dần được các doanh nghiệp lớn áp dụng, mở ra kỷ nguyên mới cho internet phi tập trung...",
-                author: "Lê Thị Hồng",
-                date: "1 ngày trước",
-                category: "Blockchain",
-                tags: ["Web3", "Blockchain", "Doanh nghiệp"],
-                likes: 156,
-                comments: 29
+                title: "Cơ sở dữ liệu quan hệ và phi quan hệ: So sánh và ứng dụng",
+                description: "Phân tích sâu về các loại cơ sở dữ liệu, khi nào nên sử dụng từng loại và ví dụ thực tế.",
+                author: "Nguyễn Anh Vinh",
+                date: "15/05/2025",
+                category: "Cơ sở dữ liệu",
+                type: "pdf",
+                views: 87,
+                downloads: 19
             },
             {
                 id: 4,
-                title: "5G và tương lai của IoT: Những thay đổi sắp tới",
-                excerpt: "Với tốc độ và độ trễ thấp, mạng 5G đang mở ra tiềm năng to lớn cho các thiết bị IoT và các ứng dụng thông minh...",
-                author: "Phạm Văn Khoa",
-                date: "2 ngày trước",
-                category: "IoT",
-                tags: ["5G", "IoT", "Kết nối"],
-                likes: 134,
-                comments: 18
+                title: "JavaScript nâng cao: Promises, async/await và ES6+",
+                description: "Tìm hiểu sâu về các tính năng hiện đại của JavaScript và cách áp dụng vào dự án thực tế.",
+                author: "Hoàng Đức Dương",
+                date: "14/05/2025",
+                category: "Lập trình",
+                type: "pdf",
+                views: 145,
+                downloads: 68
+            }
+        ];
+
+        const sampleQuestions = [
+            {
+                id: 1,
+                title: "Làm thế nào để kết nối frontend với API một cách hiệu quả?",
+                content: "Tôi đang phát triển một ứng dụng web và gặp khó khăn trong việc kết nối frontend React với backend NodeJS. Cụ thể, tôi gặp vấn đề với việc xử lý lỗi khi gọi API và cập nhật UI. Có ai có kinh nghiệm với vấn đề này không?",
+                author: "Nguyễn Anh Vinh",
+                date: "19/05/2025",
+                tags: ["javascript", "react", "api", "frontend"],
+                category: "Lập trình",
+                answers: 3,
+                views: 42
             },
             {
-                id: 5,
-                title: "Xu hướng phát triển phần mềm 2025: Microservices và Serverless",
-                excerpt: "Microservices và kiến trúc Serverless đang định hình lại cách các công ty xây dựng và triển khai phần mềm trong tương lai...",
-                author: "Hoàng Minh Đức",
-                date: "3 ngày trước",
-                category: "Software",
-                tags: ["Microservices", "Serverless", "Cloud"],
-                likes: 167,
-                comments: 25
+                id: 2,
+                title: "Thiết kế cơ sở dữ liệu cho ứng dụng trao đổi học tập",
+                content: "Tôi đang thiết kế cơ sở dữ liệu cho một ứng dụng trao đổi học tập, cần lưu trữ thông tin về tài liệu, người dùng, bình luận và hệ thống Q&A. Tôi đang phân vân giữa SQL và NoSQL. Mọi người có thể cho ý kiến không?",
+                author: "Trần Sỹ Hiếu",
+                date: "18/05/2025",
+                tags: ["database", "sql", "nosql", "design"],
+                category: "Cơ sở dữ liệu",
+                answers: 5,
+                views: 38
+            },
+            {
+                id: 3,
+                title: "Làm thế nào để tạo hệ thống upload file với giới hạn kích thước và loại file?",
+                content: "Tôi cần tạo một hệ thống upload file cho trang web của mình, với các yêu cầu: giới hạn kích thước file, chỉ cho phép một số định dạng nhất định, và hiển thị preview trước khi upload. Có ai có hướng dẫn hoặc mã nguồn mẫu không?",
+                author: "Đoàn Đức Toàn",
+                date: "17/05/2025",
+                tags: ["file-upload", "javascript", "validation"],
+                category: "Lập trình",
+                answers: 2,
+                views: 25
             }
         ];
 
-        const categories = [
-            { id: 'all', name: 'Tất cả', icon: 'fa-chart-line' },
-            { id: 'AI', name: 'AI & ML', icon: 'fa-microchip' },
-            { id: 'Software', name: 'Phần mềm', icon: 'fa-desktop' },
-            { id: 'Hardware', name: 'Phần cứng', icon: 'fa-mobile-alt' },
-            { id: 'Blockchain', name: 'Blockchain', icon: 'fa-cloud' },
-            { id: 'IoT', name: 'IoT', icon: 'fa-wifi' }
-        ];
-
-        // DOM Elements
-        const articlesGrid = document.getElementById('articles-grid');
-        const categoryButtons = document.querySelectorAll('.category-btn');
-        const sectionTitle = document.getElementById('section-title');
-        const featuredArticle = document.getElementById('featured-article');
-        const readMoreBtn = document.getElementById('read-more-btn');
-        const featuredContent = document.querySelector('.featured-full-content');
-
-        // Current active category
-        let activeCategory = 'all';
-
-        // Initialize the app
-        function init() {
-            renderArticles();
-            setupEventListeners();
+        // Initialize local storage if not exists
+        function initializeLocalStorage() {
+            if (!localStorage.getItem('documents')) {
+                localStorage.setItem('documents', JSON.stringify(sampleDocuments));
+            }
+            if (!localStorage.getItem('questions')) {
+                localStorage.setItem('questions', JSON.stringify(sampleQuestions));
+            }
+            if (!localStorage.getItem('loggedIn')) {
+                localStorage.setItem('loggedIn', 'false');
+            }
+            if (!localStorage.getItem('currentUser')) {
+                localStorage.setItem('currentUser', JSON.stringify({
+                    name: "Ngô Đức Khánh",
+                    avatar: "N"
+                }));
+            }
         }
 
-        // Render articles based on active category
-        function renderArticles() {
-            // Clear current articles
-            articlesGrid.innerHTML = '';
-            
-            // Filter articles based on category
-            const filteredArticles = activeCategory === 'all' 
-                ? articles 
-                : articles.filter(article => article.category === activeCategory);
-            
-            // Show/hide featured article based on category
-            featuredArticle.style.display = activeCategory === 'all' ? 'block' : 'none';
-            
-            // Update section title
-            if (activeCategory === 'all') {
-                sectionTitle.textContent = 'Bài viết mới nhất';
-            } else {
-                const category = categories.find(c => c.id === activeCategory);
-                sectionTitle.textContent = `Bài viết về ${category.name}`;
-            }
-            
-            // Render filtered articles
-            filteredArticles.forEach(article => {
-                const articleElement = createArticleElement(article);
-                articlesGrid.appendChild(articleElement);
+        // Data handlers
+        function getDocuments() {
+            return JSON.parse(localStorage.getItem('documents') || '[]');
+        }
+
+        function getQuestions() {
+            return JSON.parse(localStorage.getItem('questions') || '[]');
+        }
+
+        function addDocument(document) {
+            const documents = getDocuments();
+            document.id = documents.length > 0 ? Math.max(...documents.map(d => d.id)) + 1 : 1;
+            document.date = new Date().toLocaleDateString('vi-VN');
+            document.views = 0;
+            document.downloads = 0;
+            documents.push(document);
+            localStorage.setItem('documents', JSON.stringify(documents));
+        }
+
+        function addQuestion(question) {
+            const questions = getQuestions();
+            question.id = questions.length > 0 ? Math.max(...questions.map(q => q.id)) + 1 : 1;
+            question.date = new Date().toLocaleDateString('vi-VN');
+            question.answers = 0;
+            question.views = 0;
+            questions.push(question);
+            localStorage.setItem('questions', JSON.stringify(questions));
+        }
+
+        function getDocumentById(id) {
+            const documents = getDocuments();
+            return documents.find(doc => doc.id === id);
+        }
+
+        function getQuestionById(id) {
+            const questions = getQuestions();
+            return questions.find(q => q.id === id);
+        }
+
+        // UI handlers
+        function renderDocuments() {
+            const documents = getDocuments();
+            const container = $('#documents-container');
+            container.empty();
+
+            documents.forEach(doc => {
+                container.append(`
+                    <div class="document-card" data-id="${doc.id}">
+                        <div class="document-banner">
+                            <i class="fas fa-file-${doc.type === 'pdf' ? 'pdf' : 'alt'}"></i>
+                        </div>
+                        <div class="document-content">
+                            <h3 class="document-title">${doc.title}</h3>
+                            <div class="document-meta">
+                                <span><i class="fas fa-user"></i> ${doc.author}</span> &bull;
+                                <span><i class="fas fa-calendar"></i> ${doc.date}</span>
+                            </div>
+                            <p class="document-description">${doc.description}</p>
+                            <div class="document-actions">
+                                <button class="btn btn-outline view-document" data-id="${doc.id}">
+                                    <i class="fas fa-eye"></i> Xem
+                                </button>
+                                <button class="btn btn-primary">
+                                    <i class="fas fa-download"></i> Tải
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            });
+
+            // Add event listeners for document cards
+            $('.view-document').on('click', function() {
+                const id = parseInt($(this).data('id'));
+                showDocumentDetail(id);
             });
         }
 
-        // Create article DOM element
-        function createArticleElement(article) {
-            const articleDiv = document.createElement('div');
-            articleDiv.className = 'article-card';
-            
-            const tagsHtml = article.tags.map(tag => 
-                `<span class="tag"><i class="fas fa-tag"></i>${tag}</span>`
-            ).join('');
-            
-            articleDiv.innerHTML = `
-                <div class="article-img"></div>
-                <div class="article-content">
-                    <h2 class="article-title">${article.title}</h2>
-                    <p class="featured-excerpt">${article.excerpt}</p>
-                    
-                    <div class="author-info">
-                        <div>
-                            <i class="fas fa-user"></i>
-                            <span>${article.author}</span>
+        function renderQuestions() {
+            const questions = getQuestions();
+            const container = $('#questions-container');
+            container.empty();
+
+            questions.forEach(q => {
+                container.append(`
+                    <div class="question-card" data-id="${q.id}">
+                        <div class="question-header">
+                            <h3 class="question-title">${q.title}</h3>
+                            <div class="question-stats">
+                                <span><i class="fas fa-comments"></i> ${q.answers} câu trả lời</span>
+                                <span><i class="fas fa-eye"></i> ${q.views} lượt xem</span>
+                            </div>
                         </div>
-                        <div>
-                            <i class="fas fa-clock"></i>
-                            <span>${article.date}</span>
+                        <div class="question-author">
+                            <div class="author-avatar">${q.author.charAt(0)}</div>
+                            <span>${q.author} - ${q.date}</span>
                         </div>
-                    </div>
-                    
-                    <div class="tags">
-                        ${tagsHtml}
-                    </div>
-                    
-                    <div class="article-actions">
-                        <div class="action-buttons">
-                            <button class="action-btn">
-                                <i class="fas fa-thumbs-up"></i>
-                                <span>${article.likes}</span>
-                            </button>
-                            <button class="action-btn">
-                                <i class="fas fa-comment"></i>
-                                <span>${article.comments}</span>
-                            </button>
-                            <button class="action-btn">
-                                <i class="fas fa-share"></i>
-                                <span>Chia sẻ</span>
+                        <p class="question-content">${q.content.length > 200 ? q.content.substring(0, 200) + '...' : q.content}</p>
+                        <div class="question-footer">
+                            <div class="question-tags">
+                                ${q.tags.map(tag => `<div class="tag">${tag}</div>`).join('')}
+                            </div>
+                            <button class="btn btn-outline view-question" data-id="${q.id}">
+                                Xem chi tiết
                             </button>
                         </div>
-                        <button class="bookmark-btn">
-                            <i class="fas fa-bookmark"></i>
-                        </button>
                     </div>
-                </div>
-            `;
-            
-            return articleDiv;
+                `);
+            });
+
+            // Add event listeners for question cards
+            $('.view-question').on('click', function() {
+                const id = parseInt($(this).data('id'));
+                showQuestionDetail(id);
+            });
         }
 
-        // Setup event listeners
-        function setupEventListeners() {
-            // Category buttons
-            categoryButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    // Remove active class from all buttons
-                    categoryButtons.forEach(btn => btn.classList.remove('active'));
-                    
-                    // Add active class to clicked button
-                    button.classList.add('active');
-                    
-                    // Update active category and render articles
-                    activeCategory = button.getAttribute('data-category');
-                    renderArticles();
+        function showDocumentDetail(id) {
+            const doc = getDocumentById(id);
+            if (!doc) return;
+
+            $('#document-detail-title').text(doc.title);
+            $('#document-detail-author').text(doc.author);
+            $('#document-detail-date').text(doc.date);
+            $('#document-detail-category').text(doc.category);
+            $('#document-detail-views').text(`${doc.views} lượt xem`);
+            $('#document-detail-downloads').text(`${doc.downloads} lượt tải`);
+            $('#document-detail-description').text(doc.description);
+
+            $('#document-detail-modal').css('display', 'flex');
+        }
+
+        function showQuestionDetail(id) {
+            const question = getQuestionById(id);
+            if (!question) return;
+
+            $('#question-detail-title').text(question.title);
+            $('#question-detail-author').text(question.author);
+            $('#question-detail-date').text(`- ${question.date}`);
+            $('#question-detail-content').text(question.content);
+
+            // Clear and rebuild tags
+            const tagsContainer = $('#question-detail-modal .question-tags');
+            tagsContainer.empty();
+            question.tags.forEach(tag => {
+                tagsContainer.append(`<div class="tag">${tag}</div>`);
+            });
+
+            $('#question-detail-modal').css('display', 'flex');
+        }
+
+        function showToast(message, type = 'success') {
+            const toastContainer = $('#toast-container');
+            const toast = $(`
+                <div class="toast toast-${type}">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `);
+            toastContainer.append(toast);
+
+            setTimeout(() => {
+                toast.fadeOut(300, function() {
+                    $(this).remove();
+                });
+            }, 3000);
+        }
+
+        function updateLoginState() {
+            const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+            if (isLoggedIn) {
+                $('#login-btn').hide();
+                $('#user-menu').show();
+                $('#user-menu .author-avatar').text(currentUser.avatar || 'U');
+                $('#user-menu span').text(currentUser.name || 'User');
+            } else {
+                $('#login-btn').show();
+                $('#user-menu').hide();
+            }
+        }
+
+        // Event handlers
+        $(document).ready(function() {
+            // Initialize local storage
+            initializeLocalStorage();
+
+            // Render initial content
+            renderDocuments();
+            renderQuestions();
+            updateLoginState();
+
+            // Tab switching
+            $('.tab').on('click', function() {
+                const tab = $(this).data('tab');
+                $('.tab').removeClass('active');
+                $(this).addClass('active');
+                $('.tab-content').removeClass('active');
+                $(`#${tab}-tab`).addClass('active');
+            });
+
+            // Modal tab switching
+            $('[data-modal-tab]').on('click', function() {
+                const tab = $(this).data('modal-tab');
+                $('[data-modal-tab]').removeClass('active');
+                $(this).addClass('active');
+                $('#create-modal .tab-content').removeClass('active');
+                $(`#${tab}-form`).addClass('active');
+                
+                if (tab === 'document') {
+                    $('#modal-title').text('Tạo tài liệu mới');
+                } else {
+                    $('#modal-title').text('Đặt câu hỏi mới');
+                }
+            });
+
+            // Create button
+            $('#create-button').on('click', function() {
+                if (localStorage.getItem('loggedIn') !== 'true') {
+                    showToast('Vui lòng đăng nhập để thực hiện chức năng này', 'error');
+                    return;
+                }
+                $('#create-modal').css('display', 'flex');
+            });
+
+            // Close modals
+            $('.modal-close, #cancel-create').on('click', function() {
+                $('.modal-backdrop').hide();
+            });
+
+            // Save new document or question
+            $('#save-create').on('click', function() {
+                const activeTab = $('#create-modal .tab.active').data('modal-tab');
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+                if (activeTab === 'document') {
+                    const title = $('#document-title').val();
+                    const description = $('#document-description').val();
+                    const category = $('#document-category').val();
+
+                    if (!title || !description || !category) {
+                        showToast('Vui lòng điền đầy đủ thông tin', 'error');
+                        return;
+                    }
+
+                    const newDocument = {
+                        title,
+                        description,
+                        category,
+                        author: currentUser.name,
+                        type: 'pdf' // Default type
+                    };
+
+                    addDocument(newDocument);
+                    renderDocuments();
+                    showToast('Tài liệu đã được tạo thành công!');
+                } else {
+                    const title = $('#question-title').val();
+                    const content = $('#question-content').val();
+                    const tagsString = $('#question-tags').val();
+                    const category = $('#question-category').val();
+
+                    if (!title || !content || !category) {
+                        showToast('Vui lòng điền đầy đủ thông tin', 'error');
+                        return;
+                    }
+
+                    // Split tags by comma and trim whitespace
+                    const tags = tagsString.split(',').map(tag => tag.trim()).filter(tag => tag);
+
+                    const newQuestion = {
+                        title,
+                        content,
+                        tags,
+                        category,
+                        author: currentUser.name
+                    };
+
+                    addQuestion(newQuestion);
+                    renderQuestions();
+                    showToast('Câu hỏi đã được đăng thành công!');
+                }
+
+                // Clear form and close modal
+                $('#document-title, #document-description, #question-title, #question-content, #question-tags').val('');
+                $('#document-category, #question-category').val('');
+                $('#create-modal').hide();
+            });
+
+            // Close document detail
+            $('#close-document-detail').on('click', function() {
+                $('#document-detail-modal').hide();
+            });
+
+            // Close question detail
+            $('#close-question-detail').on('click', function() {
+                $('#question-detail-modal').hide();
+            });
+
+            // Login button
+            $('#login-btn').on('click', function() {
+                localStorage.setItem('loggedIn', 'true');
+                updateLoginState();
+                showToast('Đăng nhập thành công!');
+            });
+
+            // Logout button
+            $('#logout-btn').on('click', function() {
+                localStorage.setItem('loggedIn', 'false');
+                updateLoginState();
+                showToast('Đã đăng xuất!');
+            });
+
+            // User dropdown toggle
+            $('#user-dropdown-toggle').on('click', function() {
+                $('.dropdown-menu').toggleClass('show');
+            });
+
+            // Close dropdown when clicking outside
+            $(document).on('click', function(event) {
+                if (!$(event.target).closest('#user-menu').length) {
+                    $('.dropdown-menu').removeClass('show');
+                }
+            });
+
+            // Search functionality
+            $('.search-button').on('click', function() {
+                const keyword = $('.search-input').val().toLowerCase();
+                const category = $('.filter-select').eq(0).val();
+                const type = $('.filter-select').eq(1).val();
+                const year = $('.filter-select').eq(2).val();
+
+                if (!keyword && !category && !type && !year) {
+                    renderDocuments();
+                    return;
+                }
+
+                // Filter documents
+                const documents = getDocuments();
+                const filteredDocs = documents.filter(doc => {
+                    const matchKeyword = !keyword || 
+                        doc.title.toLowerCase().includes(keyword) || 
+                        doc.description.toLowerCase().includes(keyword);
+                    const matchCategory = !category || doc.category.toLowerCase() === category;
+                    const matchType = !type || doc.type.toLowerCase() === type;
+                    const matchYear = !year || doc.date.includes(year);
+
+                    return matchKeyword && matchCategory && matchType && matchYear;
+                });
+
+                // Clear and rebuild document container
+                const container = $('#documents-container');
+                container.empty();
+
+                if (filteredDocs.length === 0) {
+                    container.append('<p class="text-center">Không tìm thấy tài liệu phù hợp với tiêu chí tìm kiếm.</p>');
+                    return;
+                }
+
+                filteredDocs.forEach(doc => {
+                    container.append(`
+                        <div class="document-card" data-id="${doc.id}">
+                            <div class="document-banner">
+                                <i class="fas fa-file-${doc.type === 'pdf' ? 'pdf' : 'alt'}"></i>
+                            </div>
+                            <div class="document-content">
+                                <h3 class="document-title">${doc.title}</h3>
+                                <div class="document-meta">
+                                    <span><i class="fas fa-user"></i> ${doc.author}</span> &bull;
+                                    <span><i class="fas fa-calendar"></i> ${doc.date}</span>
+                                </div>
+                                <p class="document-description">${doc.description}</p>
+                                <div class="document-actions">
+                                    <button class="btn btn-outline view-document" data-id="${doc.id}">
+                                        <i class="fas fa-eye"></i> Xem
+                                    </button>
+                                    <button class="btn btn-primary">
+                                        <i class="fas fa-download"></i> Tải
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                });
+
+                // Reattach event listeners
+                $('.view-document').on('click', function() {
+                    const id = parseInt($(this).data('id'));
+                    showDocumentDetail(id);
                 });
             });
-            
-            // Read more button for featured article
-            readMoreBtn.addEventListener('click', () => {
-                const isExpanded = featuredContent.style.display === 'block';
-                featuredContent.style.display = isExpanded ? 'none' : 'block';
-                readMoreBtn.textContent = isExpanded ? 'Đọc thêm' : 'Thu gọn';
-            });
-        }
 
-        // Initialize the app when DOM is loaded
-        document.addEventListener('DOMContentLoaded', init);
+            // Comment submission on document detail
+            $(document).on('click', '#document-detail-modal .comment-form .btn', function() {
+                const commentText = $('#document-detail-modal .comment-input').val().trim();
+                if (!commentText) {
+                    showToast('Vui lòng nhập nội dung bình luận', 'error');
+                    return;
+                }
+
+                if (localStorage.getItem('loggedIn') !== 'true') {
+                    showToast('Vui lòng đăng nhập để bình luận', 'error');
+                    return;
+                }
+
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                const avatar = currentUser.name.charAt(0);
+                const date = new Date().toLocaleDateString('vi-VN');
+
+                const newComment = `
+                    <div class="comment">
+                        <div class="comment-avatar">${avatar}</div>
+                        <div class="comment-content">
+                            <div class="comment-author">${currentUser.name} <span style="color: #6c757d; font-weight: normal; font-size: 0.85rem;">- ${date}</span></div>
+                            <div class="comment-text">
+                                ${commentText}
+                            </div>
+                            <div class="comment-actions">
+                                <button><i class="fas fa-thumbs-up"></i> Thích (0)</button>
+                                <button><i class="fas fa-reply"></i> Trả lời</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                $('#document-detail-modal .comments-list').prepend(newComment);
+                $('#document-detail-modal .comment-input').val('');
+                showToast('Bình luận đã được đăng thành công!');
+            });
+
+            // Reply to comments
+            $(document).on('click', '.comment-actions button:contains("Trả lời")', function() {
+                if (localStorage.getItem('loggedIn') !== 'true') {
+                    showToast('Vui lòng đăng nhập để trả lời bình luận', 'error');
+                    return;
+                }
+
+                const commentEl = $(this).closest('.comment');
+                
+                // Check if reply form already exists
+                if (commentEl.find('.reply-form').length > 0) {
+                    return;
+                }
+
+                const replyForm = `
+                    <div class="reply-form" style="margin-top: 1rem;">
+                        <textarea class="comment-input" placeholder="Viết trả lời của bạn..."></textarea>
+                        <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                            <button class="btn btn-primary submit-reply">Gửi</button>
+                            <button class="btn btn-outline cancel-reply">Hủy</button>
+                        </div>
+                    </div>
+                `;
+
+                if (commentEl.find('.nested-comments').length > 0) {
+                    commentEl.find('.nested-comments').before(replyForm);
+                } else {
+                    commentEl.find('.comment-content').append(replyForm);
+                }
+            });
+
+            // Cancel reply
+            $(document).on('click', '.cancel-reply', function() {
+                $(this).closest('.reply-form').remove();
+            });
+
+            // Submit reply
+            $(document).on('click', '.submit-reply', function() {
+                const replyText = $(this).closest('.reply-form').find('textarea').val().trim();
+                if (!replyText) {
+                    showToast('Vui lòng nhập nội dung trả lời', 'error');
+                    return;
+                }
+
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                const avatar = currentUser.name.charAt(0);
+                const date = new Date().toLocaleDateString('vi-VN');
+
+                const newReply = `
+                    <div class="comment">
+                        <div class="comment-avatar">${avatar}</div>
+                        <div class="comment-content">
+                            <div class="comment-author">${currentUser.name} <span style="color: #6c757d; font-weight: normal; font-size: 0.85rem;">- ${date}</span></div>
+                            <div class="comment-text">
+                                ${replyText}
+                            </div>
+                            <div class="comment-actions">
+                                <button><i class="fas fa-thumbs-up"></i> Thích (0)</button>
+                                <button><i class="fas fa-reply"></i> Trả lời</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                const commentEl = $(this).closest('.comment');
+                if (commentEl.find('.nested-comments').length > 0) {
+                    commentEl.find('.nested-comments').prepend(newReply);
+                } else {
+                    const nestedComments = $('<div class="nested-comments"></div>');
+                    nestedComments.append(newReply);
+                    commentEl.find('.comment-content').append(nestedComments);
+                }
+
+                $(this).closest('.reply-form').remove();
+                showToast('Trả lời đã được đăng thành công!');
+            });
+
+            // Like comments
+            $(document).on('click', '.comment-actions button:contains("Thích")', function() {
+                if (localStorage.getItem('loggedIn') !== 'true') {
+                    showToast('Vui lòng đăng nhập để thích bình luận', 'error');
+                    return;
+                }
+
+                const likeText = $(this).text();
+                const likeCount = parseInt(likeText.match(/\d+/)[0]) + 1;
+                $(this).html(`<i class="fas fa-thumbs-up"></i> Thích (${likeCount})`);
+            });
+
+            // Answer submission on question detail
+            $(document).on('click', '#question-detail-modal .comment-form .btn', function() {
+                const answerText = $('#question-detail-modal .comment-input').val().trim();
+                if (!answerText) {
+                    showToast('Vui lòng nhập nội dung câu trả lời', 'error');
+                    return;
+                }
+
+                if (localStorage.getItem('loggedIn') !== 'true') {
+                    showToast('Vui lòng đăng nhập để trả lời câu hỏi', 'error');
+                    return;
+                }
+
+                const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+                const avatar = currentUser.name.charAt(0);
+                const date = new Date().toLocaleDateString('vi-VN');
+
+                const newAnswer = `
+                    <div class="comment">
+                        <div class="comment-avatar">${avatar}</div>
+                        <div class="comment-content">
+                            <div class="comment-author">${currentUser.name} <span style="color: #6c757d; font-weight: normal; font-size: 0.85rem;">- ${date}</span></div>
+                            <div class="comment-text">
+                                ${answerText}
+                            </div>
+                            <div class="comment-actions">
+                                <button><i class="fas fa-thumbs-up"></i> Thích (0)</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                $('#question-detail-modal .comments-list').append(newAnswer);
+                $('#question-detail-modal .comment-input').val('');
+                showToast('Câu trả lời đã được đăng thành công!');
+                
+                // Update answer count in question data
+                const questionId = parseInt($('#question-detail-modal').attr('data-id'));
+                const questions = getQuestions();
+                const questionIndex = questions.findIndex(q => q.id === questionId);
+                if (questionIndex !== -1) {
+                    questions[questionIndex].answers += 1;
+                    localStorage.setItem('questions', JSON.stringify(questions));
+                    renderQuestions();
+                }
+            });
+
+            // Share document
+            $(document).on('click', '#document-detail-modal .document-detail-actions button:contains("Chia sẻ")', function() {
+                const shareDialog = `
+                    <div class="modal-backdrop" id="share-modal" style="display: flex;">
+                        <div class="modal" style="max-width: 500px;">
+                            <div class="modal-header">
+                                <h3 class="modal-title">Chia sẻ tài liệu</h3>
+                                <button class="modal-close" id="close-share">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Sao chép liên kết bên dưới để chia sẻ tài liệu này:</p>
+                                <div style="display: flex; margin: 1rem 0;">
+                                    <input type="text" class="form-control" id="share-link" readonly value="https://edushare.vn/document/${$('#document-detail-modal').attr('data-id')}">
+                                    <button class="btn btn-primary" id="copy-link" style="white-space: nowrap;">Sao chép</button>
+                                </div>
+                                <p>Hoặc chia sẻ qua:</p>
+                                <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                                    <button class="btn btn-outline" style="flex: 1;">
+                                        <i class="fab fa-facebook"></i> Facebook
+                                    </button>
+                                    <button class="btn btn-outline" style="flex: 1;">
+                                        <i class="fab fa-twitter"></i> Twitter
+                                    </button>
+                                    <button class="btn btn-outline" style="flex: 1;">
+                                        <i class="fas fa-envelope"></i> Email
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                $('body').append(shareDialog);
+
+                // Close share dialog
+                $(document).on('click', '#close-share', function() {
+                    $('#share-modal').remove();
+                });
+
+                // Copy link
+                $(document).on('click', '#copy-link', function() {
+                    const linkInput = document.getElementById('share-link');
+                    linkInput.select();
+                    document.execCommand('copy');
+                    showToast('Đã sao chép liên kết!');
+                });
+            });
+
+            // Download document
+            $(document).on('click', '.btn:contains("Tải xuống"), .btn:contains("Tải")', function() {
+                if (localStorage.getItem('loggedIn') !== 'true') {
+                    showToast('Vui lòng đăng nhập để tải tài liệu', 'error');
+                    return;
+                }
+
+                showToast('Đang tải tài liệu...');
+                
+                // Simulate download delay
+                setTimeout(() => {
+                    showToast('Tải tài liệu thành công!');
+                    
+                    // Update download count in document data
+                    const documentId = parseInt($(this).closest('.document-card').data('id') || $('#document-detail-modal').attr('data-id'));
+                    if (!documentId) return;
+                    
+                    const documents = getDocuments();
+                    const documentIndex = documents.findIndex(d => d.id === documentId);
+                    if (documentIndex !== -1) {
+                        documents[documentIndex].downloads += 1;
+                        localStorage.setItem('documents', JSON.stringify(documents));
+                        renderDocuments();
+                        
+                        // Update detail view if open
+                        if ($('#document-detail-modal').is(':visible')) {
+                            $('#document-detail-downloads').text(`${documents[documentIndex].downloads} lượt tải`);
+                        }
+                    }
+                }, 1500);
+            });
+
+            // Save document to bookmarks
+            $(document).on('click', '#document-detail-modal .document-detail-actions button:contains("Lưu")', function() {
+                if (localStorage.getItem('loggedIn') !== 'true') {
+                    showToast('Vui lòng đăng nhập để lưu tài liệu', 'error');
+                    return;
+                }
+
+                showToast('Đã lưu tài liệu vào danh sách của bạn!');
+                $(this).html('<i class="fas fa-bookmark"></i> Đã lưu');
+                $(this).addClass('btn-primary').removeClass('btn-outline');
+            });
+
+            // Monitor document view count
+            $(document).on('click', '.view-document', function() {
+                const documentId = parseInt($(this).data('id'));
+                if (!documentId) return;
+                
+                const documents = getDocuments();
+                const documentIndex = documents.findIndex(d => d.id === documentId);
+                if (documentIndex !== -1) {
+                    documents[documentIndex].views += 1;
+                    localStorage.setItem('documents', JSON.stringify(documents));
+                    
+                    // Update detail view
+                    $('#document-detail-views').text(`${documents[documentIndex].views} lượt xem`);
+                }
+            });
+
+            // Initialize file upload preview
+            $('#document-file').on('change', function() {
+                const file = this.files[0];
+                if (!file) return;
+                
+                // Check file size
+                const maxSizeInMB = 5;
+                const fileSizeInMB = file.size / (1024 * 1024);
+                if (fileSizeInMB > maxSizeInMB) {
+                    showToast(`Kích thước file không được vượt quá ${maxSizeInMB}MB`, 'error');
+                    this.value = '';
+                    return;
+                }
+                
+                // Check file type
+                const acceptedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'];
+                if (!acceptedTypes.includes(file.type)) {
+                    showToast('Chỉ chấp nhận file PDF, DOC, DOCX, PPT, PPTX', 'error');
+                    this.value = '';
+                    return;
+                }
+                
+                showToast(`Đã chọn file: ${file.name}`);
+            });
+        });
     </script>
 </body>
 </html>
